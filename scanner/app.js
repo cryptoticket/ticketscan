@@ -153,7 +153,7 @@ async function getTicketValue() {
     }
 
     if (values.length == 0) {
-        return Number((value).toFixed(1))
+        return 0
     } else {
         let d = values.reduce(function(a, b){return a+b;})
         let value = d / parseFloat('56.65')

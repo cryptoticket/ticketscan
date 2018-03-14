@@ -152,10 +152,16 @@ async function getTicketValue() {
         values.push(parseInt(ticket.ipfs.price.nominal));
     }
 
-    let d = values.reduce(function(a, b){return a+b;})
-    let value = d / parseFloat('56.65')
+    if (values.length == 0) {
+        return Number((value).toFixed(1))
+    } else {
+        let d = values.reduce(function(a, b){return a+b;})
+        let value = d / parseFloat('56.65')
 
     return Number((value).toFixed(1))
+
+    }
+
 }
 
 

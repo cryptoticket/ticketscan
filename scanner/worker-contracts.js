@@ -28,6 +28,6 @@ app.locals.moment = require('moment');
 
 
 
-console.log('Start Contracts Scan')
+// console.log('Start Contracts Scan')
 // setInterval(scanner.scannBlocks, 10000)
-setInterval(scanner.scannContracts, 60000)
+// setInterval(scanner.scannContracts, 60000)

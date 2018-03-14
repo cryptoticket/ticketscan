@@ -1,0 +1,65 @@
+version: '3'
+services:
+
+    mongo:
+        image: mongo
+        volumes:
+            - mongo:/data/db
+
+    # redis:
+    #     image: redis
+    #     read_only: true
+    #     volumes:
+    #         - redis:/data
+
+    core:
+        build: .
+        volumes:
+            - .:/app
+        ports:
+            - "3000:3000"
+
+        command: npm install
+        command: npm start
+
+        links:
+            - mongo
+
+        depends_on:
+            - mongo
+
+    worker-blocks:
+        build: .
+        volumes:
+            - .:/app
+        # ports:
+        #     - "4000:4000"
+
+        command: npm install
+        command: node ./scanner/worker-blocks.js
+
+        links:
+            - mongo
+
+        depends_on:
+            - mongo
+
+    worker-contracts:
+        build: .
+        volumes:
+            - .:/app
+        # ports:
+        #     - "6000:6000"
+
+        command: npm install
+        command: node ./scanner/worker-contracts.js
+
+        links:
+            - mongo
+
+        depends_on:
+            - mongo
+
+volumes:
+    mongo:
+    redis:

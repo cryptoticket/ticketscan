@@ -1,0 +1,21 @@
+head
+  title Ticket Explorer
+  link(rel='stylesheet', href='/static/index.css', type='text/css')
+
+div
+    table
+        thead
+            tr: th Transactions
+        tbody
+            tr
+                td='address'
+                td='created_at'
+                td='type'
+            each transaction in transactions
+                tr
+                    td
+                        - var data = transaction.address
+                        a(class="button" href="./contracts/"+transaction.address) #{data}
+
+                    td=moment(transaction.created_at).format('YYYY-MM-DD')
+                    td=transaction.event

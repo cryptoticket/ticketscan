@@ -1,0 +1,29 @@
+{
+  "name": "crypto_scanner",
+  "version": "0.0.1",
+  "description": "crypto tickets explorer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./scanner/app.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "web3": "^0.20.4",
+    "mongoose": "^5.0.6",
+    "ipfs-api": "^18.0.0",
+    "pug": "^2.0.0-rc.4",
+    "moment": "^2.20.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ticketscloud/crypto.scanner"
+  },
+  "keywords": [
+    "crypto tickets"
+  ],
+  "author": "Grigoriy Butovichev",
+  "contributors": [
+    "Grigoriy Butovichev <butovichev@yandex.ru>"
+  ],
+  "license": "MIT"
+}

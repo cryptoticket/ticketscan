@@ -1,0 +1,119 @@
+head
+  title Ticket Explorer
+  link(rel='stylesheet', href='/static/index.css', type='text/css')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')
+
+
+div(class='header')
+    img(src="/static/logo.png", alt="Crypto Tickets", width="10%", height="100%")
+    div Smart Tickets Explorer
+
+
+div(class='card-wrap')
+    div(class='card g1')
+        div(class='card-body')
+            h4 Total Organizers
+            h2 #{total_organizers}
+    div(class='card g2')
+        div(class='card-body')
+            h4 Smart Tickets Released
+            h2 #{tickets_released}
+
+    br
+    br
+
+    div(class='card g3')
+        div(class='card-body')
+            h4 Total Event
+            h2 #{total_events}
+    div(class='card g4')
+        div(class='card-body')
+            h4 Smart Tickets Redeemed
+            h2 #{tickets_redeemend}
+
+
+
+    br
+    br
+
+    div(class='card g5')
+        div(class='card-body')
+            h4 Tickets Wallets
+            h2 #{tickets_wallets}
+    div(class='card g6')
+        div(class='card-body')
+            h4 Smart Tickets value
+            h2 #{tickets_value}$
+
+
+
+div(class='right-column')
+    div(class='chart')
+        canvas#myChart(width='80%', height='50%')
+        script.
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [#{chart_times}],
+                    datasets: [{
+                        label: 'Smart Tickets',
+                        data: [#{chart_data_tickets}],
+
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Events',
+                        data: [#{chart_data_events}],
+
+                        borderColor: [
+                            'rgba(94, 54, 246,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+
+                },
+
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+
+    div
+        table
+            thead
+                tr: th Contracts
+            tbody
+                tr
+                    td='type'
+                    td='address'
+                    td='created_at'
+                each item in data
+                    tr
+                        td=item.type
+                        td
+                            - var d = item.address
+                            a(class="button" href="./contracts/"+item.address) #{d.slice(0,20)+'...'}
+
+                        td=item.timedelta.slice(0, -15)

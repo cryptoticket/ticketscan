@@ -12,54 +12,50 @@ services:
     #     volumes:
     #         - redis:/data
 
-    core:
-        build: .
-        volumes:
-            - .:/app
-        ports:
-            - "3000:3000"
+    # core:
+    #     build: .
+    #     volumes:
+    #         - .:/app
+    #     ports:
+    #         - "3000:3000"
 
-        command: npm install
-        command: npm start
+    #     command: npm install
+    #     command: node ./ticketscan/app.js
 
-        links:
-            - mongo
 
-        depends_on:
-            - mongo
+    #     links:
+    #         - mongo
+
+    #     depends_on:
+    #         - mongo
 
     worker-blocks:
         build: .
         volumes:
             - .:/app
-        # ports:
-        #     - "4000:4000"
-
         command: npm install
-        command: node ./scanner/worker-blocks.js
-
+        command: node ./tasks/blocks/worker-blocks.js
         links:
             - mongo
-
         depends_on:
             - mongo
 
-    worker-contracts:
-        build: .
-        volumes:
-            - .:/app
-        # ports:
-        #     - "6000:6000"
+    # worker-contracts:
+    #     build: .
+    #     volumes:
+    #         - .:/app
+    #     # ports:
+    #     #     - "6000:6000"
 
-        command: npm install
-        command: node ./scanner/worker-contracts.js
+    #     command: npm install
+    #     command: node ./scanner/worker-contracts.js
 
-        links:
-            - mongo
+    #     links:
+    #         - mongo
 
-        depends_on:
-            - mongo
+    #     depends_on:
+    #         - mongo
 
 volumes:
     mongo:
-    redis:
+    # redis:

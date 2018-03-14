@@ -8,5 +8,5 @@ RUN yarn install
 
 COPY . /app/
 
-ENTRYPOINT ["/app/devops/entrypoint.sh"]
+ENTRYPOINT /app/devops/entrypoint.sh
 

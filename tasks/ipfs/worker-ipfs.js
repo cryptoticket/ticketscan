@@ -83,8 +83,8 @@ async function scannBlocks() {
             scann: true
         }).sort({number: -1}).limit(1);
 
-        const latest_block_db = await web3.eth.getBlock(1893735);
-        // console.log(latest_block_db[0].number, latest_block_node.number);
+        // const latest_block_db = await web3.eth.getBlock(1893735);
+        console.log(latest_block_db[0].number, latest_block_node.number);
 
         // scann blocks
 
@@ -94,7 +94,7 @@ async function scannBlocks() {
             let block = await web3.eth.getBlock(i);
             await checkTransactions(block.transactions)
             await saveBlock(i, status=true)
-            // /console.log(block.number, ' - block scanned')
+            console.log(block.number, ' - block scanned')
         }
 
     } catch (e) {

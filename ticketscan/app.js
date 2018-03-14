@@ -1,42 +1,38 @@
-var express = require('express');
-var Web3 = require('web3');
-const pug = require('pug');
+let express = require('express');
+let pug = require('pug');
+let mongoose = require('mongoose');
+let moment = require('moment');
+let path = require('path');
 
-var models = require('./models.js');
-var scanner = require('./scanner.js');
-var settings = require('./settings.json');
-var ipfsData = require('./ipfs-data.js');
+let models = require('/app/models/models.js');
+let settings = require('/app/settings/settings.js');
 
-var app = express();
-var web3 = new Web3(new Web3.providers.HttpProvider(settings.node_url));
+let app = express();
 
-const mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
-      mongoose = require('mongoose'),
-      mongo = mongoose.connect(`mongodb://${mongoURL}`);
+const mongo = mongoose.connect(`mongodb://${settings.mongo}`);
 
 
 app.set('settings', settings);
-app.set('web3', web3);
 app.set('view engine', 'pug');
 app.set('mongo', mongo);
 
-app.use(express.static('public'));
-app.use('/static', express.static(__dirname + '/public'));
+app.use(express.static('ticketscan'));
+app.use('static', express.static(__dirname + '/ticketscan/public'));
+app.set('views', path.join(__dirname, '/views'));
 
-app.locals.moment = require('moment');
 
 
 app.get('/', async (req, res, next) => {
     try {
         res.render("index", {
             "data": await getDataItems(),
-            "moment": require('moment'),
+            "moment": moment,
             'total_organizers': await getTotalOrganizers(),
             'tickets_released': await getTicketsAllocated(),
             'total_events': await getEvents(),
             'tickets_redeemend': await getSmartTicketsRedeemed(),
             'tickets_wallets': await getWallets(),
-            'tickets_value': await getTicketValue(),
+            'tickets_value': 0, // await getTicketValue(),
             'chart_times': await getChartTimes(),
             'chart_data_events': await getChartDataEvents(),
             'chart_data_tickets': await getChartDataTickets(),
@@ -130,7 +126,6 @@ async function getWallets() {
     });
 
     for (let ticket of tickets) {
-        // const transaction = await web3.eth.getTransaction(ticket.address)
         if (typeof(ticket.customer_wallet) == 'string') {
             wallets.push(ticket.customer_wallet);
         } else {
@@ -152,16 +147,10 @@ async function getTicketValue() {
         values.push(parseInt(ticket.ipfs.price.nominal));
     }
 
-    if (values.length == 0) {
-        return Number((value).toFixed(1))
-    } else {
-        let d = values.reduce(function(a, b){return a+b;})
-        let value = d / parseFloat('56.65')
+    let d = values.reduce(function(a, b){return a+b;})
+    let value = d / parseFloat('56.65')
 
     return Number((value).toFixed(1))
-
-    }
-
 }
 
 
@@ -287,6 +276,6 @@ app.get('/contracts/:id', async (req, res, next) => {
 
 
 app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+    console.log(__dirname + '/public');
 
 });

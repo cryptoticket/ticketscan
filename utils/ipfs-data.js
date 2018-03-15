@@ -1,11 +1,10 @@
-var ipfsAPI = require('ipfs-api')
-var settings = require('./settings.json');
-var ipfs = new ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
+let ipfsAPI = require('ipfs-api')
+let settings = require('/app/settings/settings.js');
+let ipfs = new ipfsAPI(settings.ipfs.host, settings.ipfs.port, {protocol: 'https'})
 
 
 
 async function ipfsData(address) {
-
     try {
         const data = {}
         // console.log(address)

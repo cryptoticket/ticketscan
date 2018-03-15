@@ -18,7 +18,6 @@ function getIpfsHashFromBytes32(ticket) {
 async function scannContracts() {
     try {
         const contracts = await models.Contract.find({is_active: true});
-        console.log(contracts)
         for (let contract of contracts) {
             const _contract = await web3.eth.contract(settings.abi);
             const contractInstance = await _contract.at(contract.address);
@@ -46,15 +45,14 @@ async function scannContracts() {
                 let customer_wallet = event.args._to;
                 let ipfs_adress = getIpfsHashFromBytes32(ticket);
                 let ipfs_data = await ipfsData.ipfsData(ipfs_adress);
-                await saveTransaction(event, ipfs_data, customer_wallet)
+                await models.saveTransaction(event, ipfs_data, customer_wallet)
             }
 
             eventsFilter.stopWatching();
-            console.log('contract scanned')
         }
 
     } catch (e) {
-        console.error(e); // 💩
+        console.error(e);
     }
 }
 

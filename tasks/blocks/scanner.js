@@ -25,7 +25,9 @@ async function checkTransactions(transactions, block_number) {
     try {
         for (let address of transactions) {
             const transaction = await web3.eth.getTransactionReceipt(address)
-            await validationsContract(transaction.to);
+            if (transaction.to != null) {
+                await validationsContract(transaction.to);
+            }
         }
     } catch (e) {
         console.error(e);

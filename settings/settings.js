@@ -9,5 +9,10 @@ module.exports = {
         "getMetadataHash"
     ],
     default_block: 1713950,
-    abi: require('./abi.json')
+    abi: require('./abi.json'),
+    sentry: {
+        "enabled": false,
+        "env": "stage",
+        "url": "https://<key>@<url>/<project>"
+      },
 }

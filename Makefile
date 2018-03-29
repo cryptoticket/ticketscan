@@ -15,7 +15,7 @@ docker-shell: docker
 
 .PHONY: jenkins
 jenkins: docker
-	docker tag $(PROJECT):latest localhost:5000/$(PROJECT):latest
-	docker push localhost:5000/$(PROJECT):latest
-	docker system prune -f
+	docker tag $(PROJECT):latest docker.ticketscloud.org/$(PROJECT):latest
+	docker push docker.ticketscloud.org/$(PROJECT):latest
+	docker system prune -f --filter "until=8h"
 

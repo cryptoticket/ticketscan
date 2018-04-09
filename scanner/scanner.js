@@ -1,6 +1,5 @@
 var express = require('express');
 var Web3 = require('web3');
-var mongoose = require('mongoose');
 var bs58 = require('bs58');
 
 var models = require('./models.js');

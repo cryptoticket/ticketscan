@@ -7,12 +7,14 @@ var scanner = require('./scanner.js');
 var settings = require('./settings.json');
 var ipfsData = require('./ipfs-data.js');
 
-var app = express();
-var web3 = new Web3(new Web3.providers.HttpProvider(settings.node_url));
+const app = express(),
 
-const mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
+      mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
       mongoose = require('mongoose'),
-      mongo = mongoose.connect(`mongodb://${mongoURL}`);
+      mongo = mongoose.connect(`mongodb://${mongoURL}`),
+
+      nodeURL = process.ENV.NODE_URL || settings.node_url,
+      web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
 
 
 app.set('settings', settings);

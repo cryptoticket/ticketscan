@@ -12,7 +12,7 @@ const app = express(),
       mongoose = require('mongoose'),
       mongo = mongoose.connect(`mongodb://${mongoURL}`),
 
-      nodeURL = process.ENV.NODE_URL || settings.node_url,
+      nodeURL = process.env.NODE_URL || settings.node_url,
       web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
 
 

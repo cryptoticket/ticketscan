@@ -9,12 +9,12 @@ var ipfsData = require('./ipfs-data.js');
 
 const app = express(),
 
-      mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
-      mongoose = require('mongoose'),
-      mongo = mongoose.connect(`mongodb://${mongoURL}`),
+mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
+mongoose = require('mongoose'),
+mongo = mongoose.connect(`mongodb://${mongoURL}`),
 
-      nodeURL = process.env.NODE_URL || settings.node_url,
-      web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
+nodeURL = process.env.NODE_URL || settings.node_url,
+web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
 
 
 app.set('settings', settings);

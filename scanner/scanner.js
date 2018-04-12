@@ -8,12 +8,12 @@ var ipfsData = require('./ipfs-data.js');
 
 const app = express(),
 
-      mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
-      mongoose = require('mongoose'),
-      mongo = mongoose.connect(`mongodb://${mongoURL}`),
+mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
+mongoose = require('mongoose'),
+mongo = mongoose.connect(`mongodb://${mongoURL}`),
 
-      nodeURL = process.env.NODE_URL || settings.node_url,
-      web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
+nodeURL = process.env.NODE_URL || settings.node_url,
+web3 = new Web3(new Web3.providers.HttpProvider(nodeURL));
 
 
 async function validationsContract(contract_adress) {
@@ -80,6 +80,7 @@ async function saveBlock(number, status) {
 
 async function scannBlocks() {
     let current_block;
+    let block_number;
     try {
         // last block db and last block node
         const latest_block_node = await web3.eth.getBlock('latest');
@@ -87,12 +88,14 @@ async function scannBlocks() {
             scann: true
         }).sort({number: -1}).limit(1);
 
-        const latest_block_db = await web3.eth.getBlock(1893735);
-        // console.log(latest_block_db[0].number, latest_block_node.number);
-
+        if (await latest_block_db.count() == 0) {
+            block_number = 1
+        } else {
+            block_number = latest_block_db[0].number
+        }
         // scann blocks
 
-        for (var i = latest_block_db[0].number; i < latest_block_node.number; i++) {
+        for (var i = block_number; i < latest_block_node.number; i++) {
             let current_block = i
 
             let block = await web3.eth.getBlock(i);
@@ -123,7 +126,7 @@ async function saveTransaction(event, ipfs, customer_wallet) {
         )
 
     } catch (e) {
-        console.error(e); // 💩
+        console.error(e);
     }
 }
 

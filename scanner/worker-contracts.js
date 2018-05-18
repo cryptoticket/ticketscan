@@ -5,7 +5,6 @@ const Agenda = require('agenda');
 var bs58 = require('bs58');
 
 var models = require('./models.js');
-var scanner = require('./scanner.js');
 var settings = require('./settings.json');
 var ipfsData = require('./ipfs-data.js');
 
@@ -31,7 +30,6 @@ app.use('/static', express.static(__dirname + '/public'));
 app.locals.moment = require('moment');
 
 console.log('Start Contracts Scan')
-// setInterval(scanner.scannContracts, 5000)
 
 
 async function saveTransaction(event, ipfs, customer_wallet, ipfs_address) {

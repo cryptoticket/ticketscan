@@ -4,7 +4,6 @@ const pug = require('pug');
 const Agenda = require('agenda');
 
 var models = require('./models.js');
-var scanner = require('./scanner.js');
 var settings = require('./settings.json');
 var ipfsData = require('./ipfs-data.js');
 

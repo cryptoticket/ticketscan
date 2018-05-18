@@ -115,7 +115,8 @@ async function getEvents() {
 async function getTotalOrganizers() {
     let partners = []
     let events = await models.Contract.find({
-        is_active: true
+        is_active: true,
+        ipfs: {$exists:true}
     });
 
     for (let event of events) {
@@ -128,7 +129,8 @@ async function getTotalOrganizers() {
 async function getWallets() {
     let wallets = []
     let tickets = await models.Transaction.find({
-        event: 'TicketAllocated'
+        event: 'TicketAllocated',
+        ipfs: {$exists:true}
     });
 
     for (let ticket of tickets) {
@@ -147,7 +149,8 @@ async function getWallets() {
 async function getTicketValue() {
     let values = []
     let tickets = await models.Transaction.find({
-        event: 'TicketAllocated'
+        event: 'TicketAllocated',
+        ipfs: {$exists:true}
     });
 
     for (let ticket of tickets) {

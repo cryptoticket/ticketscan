@@ -15,6 +15,7 @@ var contractSchema = new Schema({
     updated_at : Date,
     is_active : Boolean,
     ipfs: {},
+    ipfs_address: String,
 });
 
 
@@ -23,11 +24,13 @@ var transactionSchema = new Schema({
     created_at : Date,
     block: Number,
     event: String,
-    status: Boolean,
+    scann: Boolean,
     contract: String,
+    customer_wallet: String,
+    from: String,
+    to: String,
     ipfs: {},
-    customer_wallet: String
-
+    ipfs_address: String,
 });
 
 var Block = mongoose.model('Block', blockSchema);

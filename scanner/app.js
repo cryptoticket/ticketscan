@@ -3,7 +3,6 @@ var Web3 = require('web3');
 const pug = require('pug');
 
 var models = require('./models.js');
-var scanner = require('./scanner.js');
 var settings = require('./settings.json');
 var ipfsData = require('./ipfs-data.js');
 

@@ -167,6 +167,7 @@ async function getIPFSdata() {
 
 agenda.define('check_blocks', function(job) {
     checkBlocks();
+    console.log('run worker blocks')
 });
 
 agenda.define('get_ipfs_data', function(job) {

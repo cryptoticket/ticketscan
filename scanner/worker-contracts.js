@@ -110,6 +110,6 @@ agenda.define('check_contracts', function(job) {
 
 
 agenda.on('ready', function() {
-    agenda.every('30 seconds', 'check_contracts');
+    agenda.every('25 seconds', 'check_contracts');
     agenda.start();
 });

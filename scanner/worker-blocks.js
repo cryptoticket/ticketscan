@@ -174,7 +174,7 @@ agenda.define('get_ipfs_data', function(job) {
 });
 
 agenda.on('ready', function() {
-    agenda.every('5 seconds', 'check_blocks');
-    agenda.every('30 seconds', 'get_ipfs_data');
+    agenda.every('4 seconds', 'check_blocks');
+    agenda.every('25 seconds', 'get_ipfs_data');
     agenda.start();
 });

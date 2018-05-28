@@ -8,7 +8,7 @@ var ipfsData = require('./ipfs-data.js');
 
 const app = express(),
 
-mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
+mongoURL = process.env.MONGO_URL || 'mongo:27017/scanner',
 mongoose = require('mongoose'),
 mongo = mongoose.connect(`mongodb://${mongoURL}`),
 

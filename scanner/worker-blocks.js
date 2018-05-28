@@ -11,7 +11,7 @@ const app = express();
 
 
 
-mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
+mongoURL = process.env.MONGO_URL || 'mongo:27017/scanner',
 mongoose = require('mongoose'),
 mongo = mongoose.connect(`mongodb://${mongoURL}`),
 
@@ -34,14 +34,13 @@ console.log('Start Blocks Scan')
 
 
 async function checkBlocks() {
-    let contract_adress;
     try {
+
         // last block db and last block node
         let block_node = await web3.eth.getBlock('latest');
         let block_db = await models.Block.find({
             scann: true
         }).sort({number: -1}).limit(1);
-
 
         if (block_db.length == 0) {
             block_db = 0
@@ -52,28 +51,24 @@ async function checkBlocks() {
         if (block_db < block_node.number) {
 
             let block = await web3.eth.getBlock(block_db+1);
-
             for (let address of block.transactions) {
+                let contract_adress;
                 const transaction = await web3.eth.getTransaction(address)
-
                 if (transaction.to === null) {
                     const t = await web3.eth.getTransactionReceipt(address)
                     contract_adress = t.contractAddress
                 } else {
-                    contract_adress = transaction.to
+                    continue
                 }
 
                 const contract = await web3.eth.contract(settings.abi);
                 const contractInstance = await contract.at(contract_adress);
                 const ipfs_adress = await contractInstance.metadata()
-
                 if (typeof(ipfs_adress) === 'string') {
                     await saveContract(contract_adress, ipfs_adress)
                 }
-
                 await saveTransaction(address, transaction)
             }
-
             await saveBlock(block)
             console.log("scann block -", block_db+1)
 
@@ -167,7 +162,6 @@ async function getIPFSdata() {
 
 agenda.define('check_blocks', function(job) {
     checkBlocks();
-    console.log('run worker blocks')
 });
 
 agenda.define('get_ipfs_data', function(job) {
@@ -175,7 +169,7 @@ agenda.define('get_ipfs_data', function(job) {
 });
 
 agenda.on('ready', function() {
-    agenda.every('4 seconds', 'check_blocks');
+    agenda.every('5 seconds', 'check_blocks');
     agenda.every('25 seconds', 'get_ipfs_data');
     agenda.start();
 });

@@ -10,7 +10,7 @@ var ipfsData = require('./ipfs-data.js');
 
 const app = express(),
 
-mongoURL = process.env.MONGO_URL || 'mongo:27017/crypto_scanner',
+mongoURL = process.env.MONGO_URL || 'mongo:27017/scanner',
 mongoose = require('mongoose'),
 mongo = mongoose.connect(`mongodb://${mongoURL}`),
 
@@ -67,6 +67,11 @@ async function scannContracts() {
         for (let contract of contracts) {
             const _contract = await web3.eth.contract(settings.abi);
             const contractInstance = await _contract.at(contract.address);
+            try {
+                const ipfs_adress = await contractInstance.metadata()
+            } catch (error) {
+                continue
+            }
 
             let eventsFilter = contractInstance.allEvents({
                 fromBlock: 0, toBlock: 'latest'
@@ -84,12 +89,10 @@ async function scannContracts() {
                 );
 
             const events = await Promisify(cb => eventsFilter.get(cb));
-            console.log(events)
             for (let event of events) {
                 let ticket = event.args._ticket;
                 let customer_wallet = event.args._to;
                 let ipfs_address = getIpfsHashFromBytes32(ticket);
-                console.log(ipfs_address, 'xxxxxx3')
                 let ipfs_data = await ipfsData.ipfsData(ipfs_address);
                 await saveTransaction(event, ipfs_data,
                     customer_wallet, ipfs_address)

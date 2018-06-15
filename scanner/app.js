@@ -121,9 +121,9 @@ async function getTotalOrganizers() {
     for (let event of events) {
         try {
             partners.push(event.ipfs.organizer.id);
-          } catch (err) {
+        } catch (err) {
             continue
-          }
+        }
     }
     unique_partners = new Set(partners)
     return unique_partners.size
@@ -157,7 +157,11 @@ async function getTicketValue() {
     });
 
     for (let ticket of tickets) {
-        values.push(parseInt(ticket.ipfs.price.nominal));
+        try {
+            values.push(parseInt(ticket.ipfs.price.nominal));
+        } catch (err) {
+            continue
+        }
     }
 
     if (values.length == 0) {

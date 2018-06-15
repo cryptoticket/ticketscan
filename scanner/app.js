@@ -119,7 +119,11 @@ async function getTotalOrganizers() {
     });
 
     for (let event of events) {
-        partners.push(event.ipfs.organizer.id);
+        try {
+            partners.push(event.ipfs.organizer.id);
+          } catch (err) {
+            continue
+          }
     }
     unique_partners = new Set(partners)
     return unique_partners.size
